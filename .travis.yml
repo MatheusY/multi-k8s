@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+  before_install:
+    - docker build -t matheusy/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true matheusy/react-test npm test
+
+after_success:
+  - docker build -t matheusy/multi-client ./client
+  - docker build -t matheusy/multi-nginx ./nginx
+  - docker build -t matheusy/multi-server ./server
+  - docker build -t matheusy/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u  "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push matheusy/multi-client
+  - docker push matheusy/multi-nginx
+  - docker push matheusy/multi-server
+  - docker push matheusy/multi-worker
