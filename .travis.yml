@@ -19,4 +19,4 @@ after_success:
   - docker push matheusy/multi-client
   - docker push matheusy/multi-nginx
   - docker push matheusy/multi-server
-  - docker push matheusy/multi-worker
+  - docker push matheusy/multi-worker 
