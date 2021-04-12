@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
   - docker
@@ -6,7 +7,7 @@ services:
     - docker build -t matheusy/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true matheusy/react-test npm test
+  - docker run -e CI=true matheusy/react-test npm run test
 
 after_success:
   - docker build -t matheusy/multi-client ./client
